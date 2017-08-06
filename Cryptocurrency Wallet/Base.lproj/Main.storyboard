@@ -1,14 +1,18 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="bbD-0n-Iqw">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--RegisterVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="CWRegisterVC" customModule="Cryptocurrency_Wallet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -16,11 +20,111 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bPd-ux-ZRB">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HMR-Za-66E">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Oxy-bY-Y81">
+                                                <rect key="frame" x="20" y="60" width="335" height="182"/>
+                                                <subviews>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="sushobhit" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gXV-yU-ydv">
+                                                        <rect key="frame" x="0.0" y="0.0" width="335" height="30"/>
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
+                                                    </textField>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="pass@123" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dml-W9-v4t">
+                                                        <rect key="frame" x="0.0" y="38" width="335" height="30"/>
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" returnKeyType="next" secureTextEntry="YES"/>
+                                                    </textField>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="sushobhit.builtbyblank@gmail.com" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wxq-KX-lV1">
+                                                        <rect key="frame" x="0.0" y="76" width="335" height="30"/>
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
+                                                    </textField>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="9908765757" borderStyle="roundedRect" placeholder="Phone number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="e0X-14-xML">
+                                                        <rect key="frame" x="0.0" y="114" width="335" height="30"/>
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="phonePad" returnKeyType="done"/>
+                                                    </textField>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RcY-XI-kMd">
+                                                        <rect key="frame" x="0.0" y="152" width="335" height="30"/>
+                                                        <color key="backgroundColor" red="0.087980452249999994" green="0.62621861459999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <state key="normal" title="Register">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="registerAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KMF-Wa-LxS"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="Oxy-bY-Y81" firstAttribute="top" secondItem="HMR-Za-66E" secondAttribute="top" constant="60" id="OSA-RY-QI4"/>
+                                            <constraint firstAttribute="trailing" secondItem="Oxy-bY-Y81" secondAttribute="trailing" constant="20" id="PeO-dm-tUL"/>
+                                            <constraint firstItem="Oxy-bY-Y81" firstAttribute="leading" secondItem="HMR-Za-66E" secondAttribute="leading" constant="20" id="l3Z-kx-UzO"/>
+                                            <constraint firstItem="Oxy-bY-Y81" firstAttribute="centerX" secondItem="HMR-Za-66E" secondAttribute="centerX" id="rLN-f4-v6p"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="HMR-Za-66E" secondAttribute="bottom" id="JV0-Bl-FX4"/>
+                                    <constraint firstAttribute="trailing" secondItem="HMR-Za-66E" secondAttribute="trailing" id="KQj-la-HNL"/>
+                                    <constraint firstItem="HMR-Za-66E" firstAttribute="centerX" secondItem="bPd-ux-ZRB" secondAttribute="centerX" id="Zcv-mV-d3L"/>
+                                    <constraint firstItem="HMR-Za-66E" firstAttribute="top" secondItem="bPd-ux-ZRB" secondAttribute="top" id="fqx-EQ-DIW"/>
+                                    <constraint firstItem="HMR-Za-66E" firstAttribute="centerY" secondItem="bPd-ux-ZRB" secondAttribute="centerY" id="lm9-xU-T0W"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="HMR-Za-66E" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="QRt-Dc-9Bd"/>
+                            <constraint firstAttribute="trailing" secondItem="bPd-ux-ZRB" secondAttribute="trailing" id="QS6-Gu-HMN"/>
+                            <constraint firstItem="bPd-ux-ZRB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Zn0-JF-0FF"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="bPd-ux-ZRB" secondAttribute="bottom" id="kIQ-Md-v6N"/>
+                            <constraint firstItem="bPd-ux-ZRB" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-64" id="lC5-pp-m5x"/>
+                            <constraint firstItem="HMR-Za-66E" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" priority="250" id="zg2-wU-VIc"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="PWA-Bk-Shi"/>
+                    <connections>
+                        <outlet property="emailTF" destination="wxq-KX-lV1" id="hVh-A8-kQa"/>
+                        <outlet property="nameTF" destination="gXV-yU-ydv" id="WVK-LK-wzR"/>
+                        <outlet property="passwordTF" destination="dml-W9-v4t" id="1QT-7J-Iga"/>
+                        <outlet property="phoneTF" destination="e0X-14-xML" id="S3E-2g-lNA"/>
+                        <outlet property="registerBtn" destination="RcY-XI-kMd" id="qIy-e4-suz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="836" y="135.38230884557723"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Hl7-c0-flP">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="bbD-0n-Iqw" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="H9K-Ue-u6z">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="yMF-tt-lAj"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rVG-cz-bxx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="116" y="136"/>
         </scene>
     </scenes>
 </document>
