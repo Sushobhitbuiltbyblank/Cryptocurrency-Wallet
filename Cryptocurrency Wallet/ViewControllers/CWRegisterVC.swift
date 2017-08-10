@@ -32,18 +32,17 @@ class CWRegisterVC: UIViewController {
         self.view.endEditing(true)
         
         if self.isValide(){
-//            let paramerter = [RegisterRequestKey.name:self.nameTF.text as AnyObject,
-//                              RegisterRequestKey.email: self.emailTF.text as AnyObject,
-//                              RegisterRequestKey.phone: self.phoneTF.text as AnyObject,
-//                              RegisterRequestKey.password: self.passwordTF.text as AnyObject] as [String : AnyObject]
-            
-            let parameter = [RegisterRequestKey.password:"jafarnaqvi" as AnyObject,
-            RegisterRequestKey.email:"jafar@darwinlabs.io" as AnyObject] as[String: AnyObject]
+            let parameter = [RegisterRequestKey.name:self.nameTF.text as AnyObject,
+                             RegisterRequestKey.email: self.emailTF.text as AnyObject,
+                             RegisterRequestKey.phone: self.phoneTF.text as AnyObject,
+                             RegisterRequestKey.password: self.passwordTF.text as AnyObject] as [String : AnyObject]
             if Reachable.isConnectedToNetwork(){
                 HUD.show(.progress)
-                CryptoExchangeClient.sharedInstance().login(parameter, completionHandlerForResigter: { (result, error) in
+                CryptoExchangeClient.sharedInstance().register(parameter, completionHandlerForResigter: { (result, error) in
                     HUD.hide()
-                    print(result)
+                    if result != nil {
+                        
+                    }
                 })
             }
         }

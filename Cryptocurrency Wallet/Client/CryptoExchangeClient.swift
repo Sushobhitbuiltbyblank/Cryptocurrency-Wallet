@@ -20,114 +20,62 @@ class CryptoExchangeClient: NSObject {
     }
 
     // MARK: GET
-//    func getMethod(_ method:String,parameters:[String:AnyObject], completionHandlerForGET: @escaping (_ response : Any?, _ error :Error?) -> Void)
-//    {
-//        let url = CryptoExchangeURLFromParameters(parameters as [String : AnyObject], withPathExtension: method)
-//        Alamofire.request(String(describing: url)).responseJSON { response in switch response.result {
-//        case .success(let JSON):
-//            let response = JSON as! NSDictionary
-//            let array = response.object(forKey: method.substring(from: method.index(after: method.startIndex)))! as! NSArray
-//            completionHandlerForGET(array,nil)
-//        case .failure(let error):
-//            print("Request failed with error: \(error)")
-//            }
-//        }
-//        
-//    }
-    
-    func getMethodCall(_ method:String,parameters:[String:AnyObject], completionHandlerForGET: @escaping (_ response : Any?, _ error :Error?) -> Void)
+    func getMethod(_ method:String,parameters:[String:AnyObject], completionHandlerForGET: @escaping (_ response : Any?, _ error :Error?) -> Void)
     {
         let url = CryptoExchangeURLFromParameters(parameters as [String : AnyObject], withPathExtension: method)
         Alamofire.request(String(describing: url)).responseJSON { response in switch response.result {
         case .success(let JSON):
             let response = JSON as! NSDictionary
-            completionHandlerForGET(response,nil)
+            let array = response.object(forKey: method.substring(from: method.index(after: method.startIndex)))! as! NSArray
+            completionHandlerForGET(array,nil)
         case .failure(let error):
             print("Request failed with error: \(error)")
             }
         }
+        
     }
     
-    // MARK: POST
-//    func postMethodCall(_ method:String, parameters:[String:AnyObject], completionHandlerForPost: @escaping (_ respose: NSDictionary?, _ error : Error?) -> Void) {
-//        let url = CryptoExchangeURLFromParameters([:], withPathExtension: method)
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "POST"
-//        request.setValue("multipart/form-data", forHTTPHeaderField: "enctype")
-//        Alamofire.upload(multipartFormData: { (formData) in
-//            if parameters[Constants.JSONUserRequestKey.avatar] != nil {
-//                formData.append(parameters[Constants.JSONUserRequestKey.avatar] as! URL, withName: Constants.JSONUserRequestKey.avatar, fileName: Constants.Image.profilePic, mimeType: "image/jpeg")
-//            }
-//            for (key, value) in parameters {
-//                if key != Constants.JSONUserRequestKey.avatar {
-//                    if value is String || value is Int {
-//                        formData.append("\(value)".data(using: .utf8)!, withName: key)
-//                    }
-//                }
-//            }
-//        }, with: request) { (result) in switch result {
-//        case .success(let upload, _, _):
-//            upload.uploadProgress(closure: { (progress) in
-//                print(progress)
-//            })
-//            upload.responseJSON { response in
-//                print(response)
-//                if(response.result.value != nil) {
-//                    let result = response.result.value as! NSDictionary
-//                    completionHandlerForPost(result, nil)
-//                }
-//                else{
-//                    print("error again")
-//                }
-//            }
-//        case .failure(let encodingError):
-//            print(encodingError.localizedDescription)
-//            completionHandlerForPost(nil,encodingError)
+//    func getMethodCall(_ method:String,parameters:[String:AnyObject], completionHandlerForGET: @escaping (_ response : Any?, _ error :Error?) -> Void)
+//    {
+//        let url = CryptoExchangeURLFromParameters(parameters as [String : AnyObject], withPathExtension: method)
+//        Alamofire.request(String(describing: url)).responseJSON { response in switch response.result {
+//        case .success(let JSON):
+//            let response = JSON as! NSDictionary
+//            completionHandlerForGET(response,nil)
+//        case .failure(let error):
+//            print("Request failed with error: \(error)")
 //            }
 //        }
-//        
 //    }
     
     func postMethod(_ method:String, parameters:[String:AnyObject], completionHandlerForPost: @escaping (_ respose: NSDictionary?, _ error : Error?) -> Void) {
         let url = CryptoExchangeURLFromParameters([:], withPathExtension: method)
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        let parameter = ["password":"jafarnaqvi",
-        "email":"jafar@darwinlabs.io"]
-        Alamofire.request(url, method: .post, parameters: parameter, encoding: URLEncoding.httpBody).responseJSON { (response) in
-            print(response)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { (responseObj) in
+            switch responseObj.result{
+            case .success(let json):
+                guard let response = json as? NSDictionary else {
+                    completionHandlerForPost(nil, nil)
+                    return
+                }
+                guard let statusCode = response["statusCode"] as? Int, statusCode >= 200 && statusCode <= 299 else {
+                    print("Your request returned a status code other than 2xx!")
+                    print(response["message"] ?? "error message")
+                    completionHandlerForPost(nil, nil)
+                    return
+                }
+                completionHandlerForPost(response, nil)
+            case .failure(let error):
+                completionHandlerForPost(nil,error)
+            }
         }
-//        Alamofire.upload(multipartFormData: { (formData) in
-//        for (key, value) in parameters {
-//                if value is String || value is Int {
-//                    formData.append("\(value)".data(using: .utf8)!, withName: key)
-//                }
-//            }
-//        }, with: request) { (result) in switch result {
-//        case .success(let upload, _, _):
-//            upload.responseJSON { response in
-//                print(response)
-//                
-//                if let result = response.result.value as? NSDictionary
-//                {
-//                    print(result.value(forKey: "status") as! Bool)
-//                    completionHandlerForPost(result, nil)
-//                }
-//                else{
-//                    completionHandlerForPost(nil, nil)
-//                }
-//            }
-//        case .failure(let encodingError):
-//            print(encodingError.localizedDescription)
-//            completionHandlerForPost(nil,encodingError)
-//            }
-//        }
-        
     }
    
-    // MARK: Helpers
     
+    
+    // MARK: Helpers
     
     // given raw JSON, return a usable Foundation object
     fileprivate func convertDataWithCompletionHandler(_ data: Data, completionHandlerForConvertData: (_ result: AnyObject?, _ error: NSError?) -> Void) {
