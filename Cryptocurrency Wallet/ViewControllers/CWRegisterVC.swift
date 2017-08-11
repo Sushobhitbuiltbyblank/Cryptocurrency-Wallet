@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import PKHUD
+import SVProgressHUD
+import KeychainSwift
 
 class CWRegisterVC: UIViewController {
 
@@ -37,11 +38,26 @@ class CWRegisterVC: UIViewController {
                              RegisterRequestKey.phone: self.phoneTF.text as AnyObject,
                              RegisterRequestKey.password: self.passwordTF.text as AnyObject] as [String : AnyObject]
             if Reachable.isConnectedToNetwork(){
-                HUD.show(.progress)
+                SVProgressHUD.show()
                 CryptoExchangeClient.sharedInstance().register(parameter, completionHandlerForResigter: { (result, error) in
-                    HUD.hide()
-                    if result != nil {
-                        
+                    SVProgressHUD.dismiss()
+                    guard let result = result else{
+                        return
+                    }
+                    if let statusCode = result["statusCode"] as? Int {
+                        print("Your request returned a status code other than 2xx!")
+                        SwiftAlert().show(title:"Show statusCode \(statusCode)", message: result["message"] as! String, viewController: self)
+                        return
+                    }
+                    else{
+                        let keychain = KeychainSwift()
+                        keychain.set(result[UserResponseKey.id] as! String, forKey:UserResponseKey.id)
+                        keychain.set(result[UserResponseKey.token] as! String, forKey: UserResponseKey.token)
+                        print(result[UserResponseKey.id] ?? "no id")
+                        print(result[UserResponseKey.token] ?? "no token")
+                        if let next = self.storyboard?.instantiateViewController(withIdentifier: "CWMainVC"){
+                            self.present(next, animated: true, completion: nil)
+                        }
                     }
                 })
             }
@@ -95,6 +111,10 @@ class CWRegisterVC: UIViewController {
             return false
         }
         return true
+    }
+    
+    @IBAction func cancelAction(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
     }
     /*
     // MARK: - Navigation

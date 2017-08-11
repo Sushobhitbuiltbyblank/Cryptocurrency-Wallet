@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import KeychainSwift
 
 class CryptoExchangeClient: NSObject {
 
@@ -23,15 +24,28 @@ class CryptoExchangeClient: NSObject {
     func getMethod(_ method:String,parameters:[String:AnyObject], completionHandlerForGET: @escaping (_ response : Any?, _ error :Error?) -> Void)
     {
         let url = CryptoExchangeURLFromParameters(parameters as [String : AnyObject], withPathExtension: method)
-        Alamofire.request(String(describing: url)).responseJSON { response in switch response.result {
-        case .success(let JSON):
-            let response = JSON as! NSDictionary
-            let array = response.object(forKey: method.substring(from: method.index(after: method.startIndex)))! as! NSArray
-            completionHandlerForGET(array,nil)
-        case .failure(let error):
-            print("Request failed with error: \(error)")
+        var request = URLRequest(url: url)
+        let keychain = KeychainSwift()
+        let token = keychain.get(UserResponseKey.token)
+        request.setValue(token, forHTTPHeaderField: "x-access-token")
+        Alamofire.request(request).responseJSON { (response) in
+            switch response.result {
+            case .success(let JSON):
+                let response = JSON as! NSDictionary
+                completionHandlerForGET(response,nil)
+            case .failure(let error):
+                print("Request failed with error: \(error)")
             }
         }
+//        Alamofire.request(String(describing: url)).responseJSON { response in switch response.result {
+//        case .success(let JSON):
+//            let response = JSON as! NSDictionary
+//            let array = response.object(forKey: method.substring(from: method.index(after: method.startIndex)))! as! NSArray
+//            completionHandlerForGET(array,nil)
+//        case .failure(let error):
+//            print("Request failed with error: \(error)")
+//            }
+//        }
         
     }
     
@@ -50,19 +64,10 @@ class CryptoExchangeClient: NSObject {
     
     func postMethod(_ method:String, parameters:[String:AnyObject], completionHandlerForPost: @escaping (_ respose: NSDictionary?, _ error : Error?) -> Void) {
         let url = CryptoExchangeURLFromParameters([:], withPathExtension: method)
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { (responseObj) in
             switch responseObj.result{
             case .success(let json):
                 guard let response = json as? NSDictionary else {
-                    completionHandlerForPost(nil, nil)
-                    return
-                }
-                guard let statusCode = response["statusCode"] as? Int, statusCode >= 200 && statusCode <= 299 else {
-                    print("Your request returned a status code other than 2xx!")
-                    print(response["message"] ?? "error message")
                     completionHandlerForPost(nil, nil)
                     return
                 }

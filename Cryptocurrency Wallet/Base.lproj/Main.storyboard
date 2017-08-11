@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="bbD-0n-Iqw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="RhI-qh-U15">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -12,7 +12,7 @@
         <!--RegisterVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="CWRegisterVC" customModule="Cryptocurrency_Wallet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CWRegisterVC" id="BYZ-38-t0r" customClass="CWRegisterVC" customModule="Cryptocurrency_Wallet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -95,7 +95,13 @@
                             <constraint firstItem="HMR-Za-66E" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" priority="250" id="zg2-wU-VIc"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="PWA-Bk-Shi"/>
+                    <navigationItem key="navigationItem" id="PWA-Bk-Shi">
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="cancel" id="wJd-2V-317">
+                            <connections>
+                                <action selector="cancelAction:" destination="BYZ-38-t0r" id="aNr-CA-XU0"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="emailTF" destination="wxq-KX-lV1" id="hVh-A8-kQa"/>
                         <outlet property="nameTF" destination="gXV-yU-ydv" id="WVK-LK-wzR"/>
@@ -108,10 +114,29 @@
             </objects>
             <point key="canvasLocation" x="836" y="135.38230884557723"/>
         </scene>
+        <!--MainVC-->
+        <scene sceneID="L2j-T8-GZw">
+            <objects>
+                <viewController storyboardIdentifier="CWMainVC" id="F4Y-bt-m0j" customClass="CWMainVC" customModule="Cryptocurrency_Wallet" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Tcc-G8-UgF"/>
+                        <viewControllerLayoutGuide type="bottom" id="X20-2y-Qtj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xrQ-Mw-OXO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="5Su-Vr-XiF"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rDp-OC-Ztu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2273" y="134"/>
+        </scene>
         <!--LoginVC-->
         <scene sceneID="L2e-6j-4gc">
             <objects>
-                <viewController id="4u2-hu-Nxq" customClass="CWLoginVC" customModule="Cryptocurrency_Wallet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CWLoginVC" id="4u2-hu-Nxq" customClass="CWLoginVC" customModule="Cryptocurrency_Wallet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fJK-2X-EKR"/>
                         <viewControllerLayoutGuide type="bottom" id="1Ia-Me-ng6"/>
@@ -121,15 +146,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="rLy-Rk-ucv">
-                                <rect key="frame" x="20" y="124" width="335" height="106"/>
+                                <rect key="frame" x="20" y="124" width="335" height="172.5"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email Id" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SmQ-fs-EBL">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="jafar@darwinlabs.i" borderStyle="roundedRect" placeholder="Email Id" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SmQ-fs-EBL">
                                         <rect key="frame" x="0.0" y="0.0" width="335" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1bb-U1-V0r">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="jafarnaqvi" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1bb-U1-V0r">
                                         <rect key="frame" x="0.0" y="38" width="335" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -143,6 +168,22 @@
                                         </state>
                                         <connections>
                                             <action selector="loginAction:" destination="4u2-hu-Nxq" eventType="touchUpInside" id="xMe-x0-r6C"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pTH-10-Uug">
+                                        <rect key="frame" x="0.0" y="114" width="335" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aft-rM-pdN">
+                                        <rect key="frame" x="0.0" y="142.5" width="335" height="30"/>
+                                        <color key="backgroundColor" red="0.19886610243055555" green="0.53757052951388884" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Create New Account">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="bbD-0n-Iqw" kind="show" id="baf-cU-FmF"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -160,6 +201,7 @@
                         <outlet property="emailTF" destination="SmQ-fs-EBL" id="QJc-m3-FMQ"/>
                         <outlet property="loginBtn" destination="cdz-fW-DTZ" id="H2R-BA-4VZ"/>
                         <outlet property="passwordTF" destination="1bb-U1-V0r" id="g34-e0-a6I"/>
+                        <outlet property="registerBtn" destination="Aft-rM-pdN" id="1pd-hY-AL4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5ok-uH-LJ8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -201,6 +243,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DWZ-RE-2DW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="116" y="788"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="HiN-9t-isR">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="URJ-ad-UMw" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="sng-0m-LnA">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="F4Y-bt-m0j" kind="relationship" relationship="rootViewController" id="lyD-mr-MNu"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mBr-94-v4a" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1573.5999999999999" y="134.48275862068968"/>
         </scene>
     </scenes>
 </document>

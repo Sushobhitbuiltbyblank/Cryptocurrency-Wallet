@@ -6,7 +6,8 @@ target 'Cryptocurrency Wallet' do
   use_frameworks!
 pod 'IQKeyboardManagerSwift'
 pod 'Alamofire', '~> 4.4'
-pod 'PKHUD', '~> 4.0'
+pod 'SVProgressHUD'
+pod 'KeychainSwift', '~> 8.0'
   # Pods for Cryptocurrency Wallet
 
 end

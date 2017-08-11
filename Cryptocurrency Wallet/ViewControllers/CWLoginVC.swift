@@ -7,13 +7,15 @@
 //
 
 import UIKit
-import PKHUD
+import SVProgressHUD
+import KeychainSwift
 
 class CWLoginVC: UIViewController {
 
     @IBOutlet weak var emailTF: UITextField!
     @IBOutlet weak var passwordTF: UITextField!
     @IBOutlet weak var loginBtn: UIButton!
+    @IBOutlet weak var registerBtn: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         addTapToHideKeyboard()
@@ -49,7 +51,7 @@ class CWLoginVC: UIViewController {
             SwiftAlert().show(title: "Almost there", message: "Please Fill in valid email address", viewController: self)
             return false
         }
-        if !Validator.sharedInstance.isStringOfLength(str: self.passwordTF.text!, len: 8)
+        if Validator.sharedInstance.isStringlessthanLength(str: self.passwordTF.text!, len: 8)
         {
             SwiftAlert().show(title: "Almost there", message: "Please Fill in password minimum of 8", viewController: self)
             return false
@@ -64,18 +66,39 @@ class CWLoginVC: UIViewController {
             let parameter = [RegisterRequestKey.email: self.emailTF.text as AnyObject,
                              RegisterRequestKey.password: self.passwordTF.text as AnyObject] as [String : AnyObject]
             if Reachable.isConnectedToNetwork(){
-                HUD.show(.progress)
-                CryptoExchangeClient.sharedInstance().login(parameter, completionHandlerForResigter: { (result, error) in
-                    HUD.hide()
-                    if result != nil {
-                        
+                SVProgressHUD.show()
+                CryptoExchangeClient.sharedInstance().login(parameter, completionHandlerForLogin: { (result, error) in
+                    guard let result = result else{
+                        return
+                    }
+                    if let error = result["error"] as? NSDictionary {
+                        SVProgressHUD.dismiss()
+                        SwiftAlert().show(title: "Oppss!", message: String(describing: error["message"]!), viewController: self)
+                    }
+                    else{
+                        let keychain = KeychainSwift()
+                        keychain.set(result[UserResponseKey.id] as! String, forKey:UserResponseKey.id)
+                        keychain.set(result[UserResponseKey.token] as! String, forKey: UserResponseKey.token)
+                        print(result[UserResponseKey.id] ?? "no id")
+                        print(result[UserResponseKey.token] ?? "no token")
+                        CryptoExchangeClient.sharedInstance().getEthereumWallet([:], completionHandlerForEthereumWallet: { (response, error) in
+                            guard let response = response else{
+                                return
+                            }
+                            SVProgressHUD.dismiss()
+                            if let next = self.storyboard?.instantiateViewController(withIdentifier: "CWMainVC") as? CWMainVC{
+                                next.data = response
+                                let nv = UINavigationController(rootViewController: next)
+                                self.present(nv, animated: true, completion: nil)
+                            }
+                        })
                     }
                 })
             }
-
+            
         }
     }
-
+   
     /*
     // MARK: - Navigation
 
