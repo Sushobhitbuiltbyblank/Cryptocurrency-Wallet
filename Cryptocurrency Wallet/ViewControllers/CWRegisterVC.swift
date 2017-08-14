@@ -50,16 +50,25 @@ class CWRegisterVC: UIViewController {
                         return
                     }
                     else{
+                        UserDefaults.standard.set(true, forKey: "isLogin")
+                        UserDefaults.standard.synchronize()
                         let keychain = KeychainSwift()
                         keychain.set(result[UserResponseKey.id] as! String, forKey:UserResponseKey.id)
                         keychain.set(result[UserResponseKey.token] as! String, forKey: UserResponseKey.token)
                         print(result[UserResponseKey.id] ?? "no id")
                         print(result[UserResponseKey.token] ?? "no token")
-                        if let next = self.storyboard?.instantiateViewController(withIdentifier: "CWMainVC"){
-                            self.present(next, animated: true, completion: nil)
+                        SVProgressHUD.dismiss()
+                        if let next = self.storyboard?.instantiateViewController(withIdentifier: "CWMainVC") as? CWMainVC{
+                            let nv = UINavigationController(rootViewController: next)
+                            self.present(nv, animated: true, completion: nil)
+                            UserDefaults.standard.set(true, forKey: "haveWallet")
+                            UserDefaults.standard.synchronize()
                         }
                     }
                 })
+            }
+            else{
+                SwiftAlert().show(title: "No Internet", message: "Please connect internet first", viewController: self)
             }
         }
     }

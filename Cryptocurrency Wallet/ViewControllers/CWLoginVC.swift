@@ -81,19 +81,38 @@ class CWLoginVC: UIViewController {
                         keychain.set(result[UserResponseKey.token] as! String, forKey: UserResponseKey.token)
                         print(result[UserResponseKey.id] ?? "no id")
                         print(result[UserResponseKey.token] ?? "no token")
+                        UserDefaults.standard.set(true, forKey: "isLogin")
+                        UserDefaults.standard.synchronize()
                         CryptoExchangeClient.sharedInstance().getEthereumWallet([:], completionHandlerForEthereumWallet: { (response, error) in
+                            SVProgressHUD.dismiss()
                             guard let response = response else{
                                 return
                             }
-                            SVProgressHUD.dismiss()
+                            if let _ = response["error"] as? NSDictionary {
+                                if let next = self.storyboard?.instantiateViewController(withIdentifier: "CWMainVC") as? CWMainVC{
+                                    UserDefaults.standard.set(false, forKey: "haveWallet")
+                                    UserDefaults.standard.synchronize()
+                                    let nv = UINavigationController(rootViewController: next)
+                                    self.present(nv, animated: true, completion: nil)
+                                    
+                                }
+                                return
+                            }
                             if let next = self.storyboard?.instantiateViewController(withIdentifier: "CWMainVC") as? CWMainVC{
-                                next.data = response
+                                UserDefaults.standard.set(true, forKey: "haveWallet")
+                                UserDefaults.standard.synchronize()
+                                var res = response.value(forKey: "account") as! Dictionary<String, Any>
+                                res["balance"] = response["balance"] as! String
+                                next.data = res as NSDictionary
                                 let nv = UINavigationController(rootViewController: next)
                                 self.present(nv, animated: true, completion: nil)
                             }
                         })
                     }
                 })
+            }
+            else{
+                SwiftAlert().show(title: "No Internet", message: "Please connect internet first", viewController: self)
             }
             
         }

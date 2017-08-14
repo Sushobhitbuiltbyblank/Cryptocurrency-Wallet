@@ -8,8 +8,6 @@
 
 import UIKit
 import Alamofire
-import KeychainSwift
-
 class CryptoExchangeClient: NSObject {
 
     // MARK: Properties
@@ -21,13 +19,11 @@ class CryptoExchangeClient: NSObject {
     }
 
     // MARK: GET
-    func getMethod(_ method:String,parameters:[String:AnyObject], completionHandlerForGET: @escaping (_ response : Any?, _ error :Error?) -> Void)
+    func getMethod(_ method:String,parameters:[String:AnyObject],headers:[String:String], completionHandlerForGET: @escaping (_ response : Any?, _ error :Error?) -> Void)
     {
         let url = CryptoExchangeURLFromParameters(parameters as [String : AnyObject], withPathExtension: method)
         var request = URLRequest(url: url)
-        let keychain = KeychainSwift()
-        let token = keychain.get(UserResponseKey.token)
-        request.setValue(token, forHTTPHeaderField: "x-access-token")
+        request.allHTTPHeaderFields = headers
         Alamofire.request(request).responseJSON { (response) in
             switch response.result {
             case .success(let JSON):
@@ -37,34 +33,12 @@ class CryptoExchangeClient: NSObject {
                 print("Request failed with error: \(error)")
             }
         }
-//        Alamofire.request(String(describing: url)).responseJSON { response in switch response.result {
-//        case .success(let JSON):
-//            let response = JSON as! NSDictionary
-//            let array = response.object(forKey: method.substring(from: method.index(after: method.startIndex)))! as! NSArray
-//            completionHandlerForGET(array,nil)
-//        case .failure(let error):
-//            print("Request failed with error: \(error)")
-//            }
-//        }
-        
     }
     
-//    func getMethodCall(_ method:String,parameters:[String:AnyObject], completionHandlerForGET: @escaping (_ response : Any?, _ error :Error?) -> Void)
-//    {
-//        let url = CryptoExchangeURLFromParameters(parameters as [String : AnyObject], withPathExtension: method)
-//        Alamofire.request(String(describing: url)).responseJSON { response in switch response.result {
-//        case .success(let JSON):
-//            let response = JSON as! NSDictionary
-//            completionHandlerForGET(response,nil)
-//        case .failure(let error):
-//            print("Request failed with error: \(error)")
-//            }
-//        }
-//    }
-    
-    func postMethod(_ method:String, parameters:[String:AnyObject], completionHandlerForPost: @escaping (_ respose: NSDictionary?, _ error : Error?) -> Void) {
+    // MARK: POST
+    func postMethod(_ method:String, parameters:[String:AnyObject], headers:[String:String], completionHandlerForPost: @escaping (_ respose: NSDictionary?, _ error : Error?) -> Void) {
         let url = CryptoExchangeURLFromParameters([:], withPathExtension: method)
-        Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { (responseObj) in
+        Alamofire.request(url, method: .post, parameters: parameters, encoding:URLEncoding.default , headers: headers).responseJSON { (responseObj) in
             switch responseObj.result{
             case .success(let json):
                 guard let response = json as? NSDictionary else {
@@ -77,7 +51,7 @@ class CryptoExchangeClient: NSObject {
             }
         }
     }
-   
+
     
     
     // MARK: Helpers

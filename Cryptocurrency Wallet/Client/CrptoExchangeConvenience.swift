@@ -7,13 +7,14 @@
 //
 
 import Foundation
+import KeychainSwift
 
 extension CryptoExchangeClient {
     
     func register(_ parameters:[String:AnyObject], completionHandlerForResigter:@escaping (_ response:NSDictionary?, _ error:Error?)->Void)
     {
         let mutableMethod:String = Methods.userRegister
-        postMethod(mutableMethod, parameters: parameters) {
+        postMethod(mutableMethod, parameters: parameters, headers: [:]){
             (response, error) in
             if error == nil {
                 completionHandlerForResigter(response,error)
@@ -27,7 +28,7 @@ extension CryptoExchangeClient {
     func login(_ parameters:[String:AnyObject], completionHandlerForLogin:@escaping (_ response:NSDictionary?, _ error:Error?)->Void)
     {
         let mutableMethod:String = Methods.userLogin
-        postMethod(mutableMethod, parameters: parameters) {
+        postMethod(mutableMethod, parameters: parameters, headers: [:]) {
             (response, error) in
             print(response ?? "no response")
             if error == nil {
@@ -42,7 +43,10 @@ extension CryptoExchangeClient {
     func getEthereumWallet(_ parameters:[String:AnyObject], completionHandlerForEthereumWallet:@escaping (_ response:NSDictionary?, _ error:Error?)->Void)
     {
         let mutableMethod:String = Methods.getEthereumWallet
-        getMethod(mutableMethod, parameters: [:]) { (response, error) in
+        let keychain = KeychainSwift()
+        let token = keychain.get(UserResponseKey.token)
+        let headers = ["x-access-token":token]
+        getMethod(mutableMethod, parameters: [:], headers: headers as! [String : String]) { (response, error) in
             if error == nil {
                 completionHandlerForEthereumWallet(response as? NSDictionary,error)
             }
@@ -52,5 +56,39 @@ extension CryptoExchangeClient {
         }
     }
     
+    func creatWallet(_ parameters:[String:AnyObject], completionHandlerForCreateWallet:@escaping (_ response:NSDictionary?, _ error:Error?)->Void)
+    {
+        let mutableMethod:String = Methods.createEthereumWallet
+        
+        let keychain = KeychainSwift()
+        let token = keychain.get(UserResponseKey.token)
+        let headers = ["x-access-token":token]
+        postMethod(mutableMethod, parameters: [:], headers: headers as! [String : String]) { (reponse, error) in
+            if error == nil {
+                completionHandlerForCreateWallet(reponse,error)
+            }
+            else{
+                completionHandlerForCreateWallet(nil,error)
+            }
+        }
+
+    }
+    
+    func getEthereumTransactionHistory(_ parameters:[String:AnyObject], completionHandlerForEthereumWallet:@escaping (_ response:NSDictionary?, _ error:Error?)->Void)
+    {
+        let mutableMethod:String = Methods.getEthereumTransactionHistory
+        let keychain = KeychainSwift()
+        let token = keychain.get(UserResponseKey.token)
+        let headers = ["x-access-token":token]
+        getMethod(mutableMethod, parameters: [:], headers: headers as! [String : String]) { (response, error) in
+            if error == nil {
+                completionHandlerForEthereumWallet(response as? NSDictionary,error)
+            }
+            else{
+                completionHandlerForEthereumWallet(nil,error)
+            }
+        }
+    }
+
     
 }
